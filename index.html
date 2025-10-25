@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mystery Reward Claim</title>
+    <!-- Favicon: Heart emoji (modern 2025 style) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='80'>❤️</text></svg>">
+    <!-- Romantic Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Confetti.js for celebration -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            padding: 40px 20px;
+            min-height: 100vh;
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #ffebee 0%, #ffccbc 100%);
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .hearts {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -1;
+        }
+        .heart {
+            position: absolute;
+            font-size: 1.8em;
+            color: #ff4081;
+            animation: floatUp 6s infinite linear;
+            opacity: 0.6;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+        #form-container {
+            background: white;
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+            max-width: 420px;
+            width: 100%;
+            transition: transform 0.3s ease;
+        }
+        #form-container:hover { transform: translateY(-5px); }
+        h1 {
+            font-family: 'Pacifico', cursive;
+            color: #e91e63;
+            font-size: 2.4em;
+            margin: 0 0 16px;
+        }
+        p { margin: 12px 0; font-size: 1.1em; }
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 14px 0;
+            border: 2px solid #ff4081;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+        input:focus {
+            border-color: #e91e63;
+            outline: none;
+        }
+        button {
+            background: linear-gradient(135deg, #ff4081, #e91e63);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #e91e63, #ff4081);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(233,30,99,0.3);
+        }
+        #reveal {
+            display: none;
+            background: rgba(255,255,255,0.95);
+            padding: 35px;
+            border-radius: 22px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+            max-width: 520px;
+            animation: fadeIn 0.6s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.92); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        ol {
+            text-align: left;
+            padding-left: 20px;
+            margin: 20px 0;
+            font-size: 1.15em;
+            line-height: 1.75;
+        }
+        ol li::marker { color: #ff4081; font-weight: bold; }
+        .final-note { font-style: italic; color: #e91e63; font-size: 1.2em; margin-top: 25px; }
+    </style>
+</head>
+<body>
+
+    <!-- Floating Hearts Background -->
+    <div class="hearts"></div>
+
+    <!-- Login Form -->
+    <div id="form-container">
+        <h1>Claim Your Mystery Prize! 🎁</h1>
+        <p><strong>Hey love,</strong> you’ve won something special. Just fill this in to unlock it! 💕</p>
+        <input type="text" id="name" placeholder="Your beautiful name">
+        <input type="text" id="fun-fact" placeholder="Our favorite inside joke or memory">
+        <button onclick="unlockReveal()">Unlock Surprise</button>
+    </div>
+
+    <!-- Reveal Page -->
+    <div id="reveal">
+        <h1>Happy 1-Year Anniversary, [Her Name]! ❤️</h1>
+        <p><strong>Surprise!</strong> This was never a prize… it was always <em>you</em> — my greatest reward.</p>
+        <p>Here are <strong>12 reasons</strong> I fall more in love with you every single month:</p>
+        <ol>
+            <li>Your smile that turns my worst days into magic.</li>
+            <li>The way you laugh — even at my terrible puns.</li>
+            <li>Your heart, so kind it heals the world quietly.</li>
+            <li>Every spontaneous adventure we turn into a story.</li>
+            <li>How you light up when talking about [her passion/hobby].</li>
+            <li>The peace I feel just holding your hand in silence.</li>
+            <li>Your strength — you inspire me to be better every day.</li>
+            <li>Our 3 a.m. talks that feel like time stands still.</li>
+            <li>The little love notes you hide in my things.</li>
+            <li>How you believe in my dreams like they’re already real.</li>
+            <li>The way we fit — like we were made for each other.</li>
+            <li>The future I can’t wait to build… with <em>you</em>.</li>
+        </ol>
+        <p class="final-note">I love you more than yesterday, less than tomorrow. Forever yours.</p>
+    </div>
+
+    <script>
+        // Floating hearts
+        function createHearts() {
+            const container = document.querySelector('.hearts');
+            for (let i = 0; i < 18; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = ['❤️','🩷','💖','💕'][Math.floor(Math.random()*4)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDelay = Math.random() * 6 + 's';
+                heart.style.animationDuration = (8 + Math.random() * 8) + 's';
+                container.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // Unlock with validation
+        function unlockReveal() {
+            const name = document.getElementById('name').value.trim();
+            const fact = document.getElementById('fun-fact').value.trim();
+
+            if (!name || !fact) {
+                alert("Both fields are needed to unlock the magic! ✨");
+                return;
+            }
+
+            // Personalize reveal
+            document.querySelector('#reveal h1').innerHTML = 
+                `Happy 1-Year Anniversary, ${name}! ❤️`;
+
+            // Hide form, show reveal
+            document.getElementById('form-container').style.display = 'none';
+            document.getElementById('reveal').style.display = 'block';
+
+            // Confetti explosion!
+            const end = Date.now() + 1500;
+            const colors = ['#ff4081', '#e91e63', '#ffccbc', '#fce4ec'];
+            (function frame() {
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: colors
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: colors
+                });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+        }
+    </script>
+</body>
+  </html>
